@@ -57,6 +57,10 @@ spec:
       level: "s0:c123,c456"
   volumes:
   - hostPath:
+      path: /path/to/facturascritps-www
+      type: Directory
+    name: facturascripts-www
+  - hostPath:
       path: /path/to/mariadb
       type: Directory
     name: mariadb
