@@ -8,7 +8,7 @@ metadata:
     name: FacturascriptsPod
 spec:
   containers:
-  - name: facturascripts-web
+  - name: web
     args:
       - facturascripts
     image: docker.io/facturascripts/facturascripts:latest
@@ -28,7 +28,7 @@ spec:
     volumeMounts:
     - mountPath: /var/www/html:Z
       name: facturascripts-www
-  - name: facturascripts-mariadb
+  - name: mariadb
     args:
     - mariadbd
     env:
