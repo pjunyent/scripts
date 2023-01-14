@@ -1,0 +1,63 @@
+#FacturascriptsPod v.1.0 yaml for kubernetes / podman deployment
+#(c) pjunyent, EUPL v.1.2
+apiVersion: apps/v1
+kind: Pod
+metadata:
+  name: FacturascriptsPod
+  labels:
+    name: FacturascriptsPod
+spec:
+  containers:
+  - name: facturascripts-web
+    args:
+      - facturascripts
+    image: docker.io/facturascripts/facturascripts:latest
+    resources: {}
+    securityContext:
+      capabilities:
+        drop:
+        - CAP_MKNOD
+        - CAP_NET_RAW
+        - CAP_AUDIT_WRITE
+      seLinuxOptions:
+        level: "s0:c123,c456"
+    tty: true
+    ports:
+      - containerPort: 80
+        hostPort: HOSTPORT
+    volumeMounts:
+    - mountPath: /var/www/html:Z
+      name: facturascripts-www
+  - name: facturascripts-mariadb
+    args:
+    - mariadbd
+    env:
+    - name: MYSQL_PASSWORD
+      value: mypassword
+    image: docker.io/mariadb:latest
+    resources: {}
+    securityContext:
+      capabilities:
+        drop:
+        - CAP_MKNOD
+        - CAP_NET_RAW
+        - CAP_AUDIT_WRITE
+      seLinuxOptions:
+        level: "s0:c123,c456"
+    tty: true
+    ports:
+      - containerPort: 3306
+    volumeMounts:
+    - mountPath: /var/lib/mysql:Z
+      name: mariadb
+  hostname: FacturascriptsPod
+  restartPolicy: OnFailure
+  securityContext:
+    seLinuxOptions:
+      level: "s0:c123,c456"
+  volumes:
+  - hostPath:
+      path: /path/to/mariadb
+      type: Directory
+    name: mariadb
+status: {}
