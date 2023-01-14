@@ -32,7 +32,7 @@ spec:
     args:
     - mariadbd
     env:
-    - name: MYSQL_PASSWORD
+    - name: MYSQL_ROOT_PASSWORD
       value: mypassword
     image: docker.io/mariadb:latest
     resources: {}
